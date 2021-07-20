@@ -1,0 +1,331 @@
+
+<!-- This example is following frontend and backend separation.
+
+  This .html performs two steps:
+  1. Create a html template skeleton, with all the elements defined (some left empty) and named with ids.
+  2. Load index.js to populate the data into empty elements.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
+
+
+  <!--  semantic css -->
+  <link rel="stylesheet" type="text/css" href="./dist/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/transition.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./dist/components/reset.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/site.css">
+
+  <link rel="stylesheet" type="text/css" href="./dist/components/container.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/grid.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/header.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/image.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/menu.css">
+
+  <link rel="stylesheet" type="text/css" href="./dist/components/divider.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/segment.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/form.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/input.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/button.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/list.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/message.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/icon.css">
+  
+  <!-- include jquery autocomplete JS  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.7/jquery.autocomplete.min.js"></script>
+
+    <!-- Bootstrap for CSS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="style.css">
+
+  
+  <title>Movie List</title>
+</head>
+<body>
+
+
+
+<div class="ui fixed inverted menu">
+  <div class="header item">Brand</div>
+  <div class="ui dropdown item" tabindex="0">
+    Dropdown
+    <i class="dropdown icon"></i>
+    <div class="menu" tabindex="-1">
+      <div class="item">Action</div>
+      <div class="item">Another Action</div>
+      <div class="item">Something else here</div>
+      <div class="divider"></div>
+      <div class="item">Separated Link</div>
+      <div class="divider"></div>
+      <div class="item">One more separated link</div>
+    </div>
+  </div>
+  <div class="right menu">
+    <button class="ui primary button" id="advanceSearch" onclick='$(".advance.modal").modal("show")'><i class="search plus large icon" style="margin-right: -3px"></i></button> 
+  	<button class="ui primary button" id="sort" onclick='$(".mini.modal").modal("show")'><i class="sort large icon" style="margin-right: -3px"></i></button> 
+  	<button class="ui primary button" id="alphabet"><i class="sort large alphabet down icon" style="margin-right: -3px"></i></button>
+  	<button class="ui primary button" id="filter"><i class="filter icon" style="margin-right: -3px"></i></button> 
+  	<input type="button" class = "ui primary button" value="Show Cart" onclick="window.location.href='cart.html'" />
+  	
+    <!-- <div class="item">
+      <div class="ui transparent inverted icon input">
+        <i class="search icon"></i>
+        <input type="text" name="search" id="autocomplete"  class="autocomplete-searchbox form-control" placeholder="Search Movie Titles"/>
+        <button type="submit" name="searchbutton" id="searchbutton">Search</button>
+      </div>
+       <div class="container">
+	    <input type="text" name="search" id="autocomplete" 
+	       class="autocomplete-searchbox form-control" 
+	       placeholder="Search Movie Titles"/>
+	    <button type="submit" name="searchbutton" id="searchbutton" placeholder="Search"></button>
+    	</div>
+    </div> -->
+    
+    <!-- <div class="container">
+        <input type="text" name="search" id="autocomplete"  class="autocomplete-searchbox form-control" placeholder="Search Movie Titles"/>
+     	
+     	<button name="searchbutton" id="searchbutton">Search</button>
+    </div> -->
+  </div>
+</div> 
+
+
+<div class="container">
+        <input type="text" name="search" id="autocomplete"  class="autocomplete-searchbox form-control" placeholder="Search Movie Titles"/>
+     	
+     	<button name="searchbutton" id="searchbutton">Search</button>
+</div>
+
+  <!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
+  
+  <div class="ui items" style="margin-top: 50px;width: 85%; margin-left:7%" >
+
+    <div class="ui internally celled grid" id="movie-list"></div>
+
+  </div>
+  
+  
+  <div class="ui container center aligned" id="pagination">
+  	
+  </div>
+  
+
+
+  <div class="ui dimmer modals page transition hidden">
+  
+      <div class="ui standard advance modal transition hidden" style="display: block !important;">
+    
+    <div class="header">
+      Advance Search
+    </div>
+    <div class="image content">
+ 
+    <div class="description">
+      <div class="spaced">
+      <div class="ui form" id="advanceSearchForm">
+  		<div class="field">
+		    <label>Movie Title</label>
+		    <input type="text" placeholder="Enter movie title" name="title">
+  		</div>
+  		<div class="field">
+		    <label>Movie Year</label>
+		    <input type="text" placeholder="Enter movie year" name="year">
+  		</div>
+  		<div class="field">
+		    <label>Movie Director</label>
+		    <input type="text" placeholder="Enter movie director" name="director">
+  		</div>
+  		<div class="field">
+		    <label>Star</label>
+		    <input type="text" placeholder="Enter movie star" name="star">
+  		</div>
+  		<div class="field">
+  			<label>Order By</label>
+		    <select>
+		      <option value="rating">rating</option>
+		      <option value="title">title</option>
+		    </select>
+  		</div>
+  		<div class="inline field">
+    		<div class="ui toggle checkbox">
+      			<input type="checkbox" tabindex="0" class="hidden">
+      		<label>Substring Match</label>
+    	</div>
+  </div>
+	  </div>
+     
+      
+      
+    </div>
+    </div>
+  </div>
+  
+    <div class="actions">
+      <div class="ui black deny button">
+        Cancel
+      </div>
+      <div class="ui positive right labeled icon button" id="advanceSearchSubmit">
+        Show Results
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+  
+    <div class="ui standard test modal transition hidden" style="display: block !important;">
+    
+    <div class="header">
+      Select By Genre
+    </div>
+    <div class="image content">
+ 
+    <div class="description">
+      <div class="spaced">
+      <button class="red ui button" id="action" onClick="filterButton(this.id)">Action</button>
+      <button class="orange ui button" id="adult" onClick="filterButton(this.id)">Adult</button>
+      <button class="yellow ui button" id="adventure" onClick="filterButton(this.id)">Adventure</button>
+      <button class="olive ui button" id="animation" onClick="filterButton(this.id)">Animation</button>
+      <button class="green ui button" id="biography" onClick="filterButton(this.id)">Biography</button>
+      <button class="teal ui button" id="comedy" onClick="filterButton(this.id)">Comedy</button>
+      <button class="blue ui button" id="crime" onClick="filterButton(this.id)">Crime</button>
+      <p></p>
+      <button class="violet ui button" id="documentary" onClick="filterButton(this.id)">Documentary</button>
+      <button class="purple ui button" id="drama" onClick="filterButton(this.id)">Drama</button>
+      <button class="pink ui button" id="family" onClick="filterButton(this.id)">Family</button>
+      <button class="brown ui button" id="fantasy" onClick="filterButton(this.id)">Fantasy</button>
+      <button class="red ui button" id="history" onClick="filterButton(this.id)">History</button>	
+      <button class="orange ui button" id="horror" onClick="filterButton(this.id)">Horror</button>	
+      <button class="yellow ui button" id="music" onClick="filterButton(this.id)">Music</button>	
+      <button class="olive ui button" id="musical" onClick="filterButton(this.id)">Musical</button>
+      <p></p>	
+      <button class="green ui button" id="mystery" onClick="filterButton(this.id)">Mystery</button>	
+      <button class="teal ui button" id="reality-tv" onClick="filterButton(this.id)">Reality-TV</button>	
+      <button class="blue ui button" id="romance" onClick="filterButton(this.id)">Romance</button>	
+      <button class="violet ui button" id="sci-fi" onClick="filterButton(this.id)">Sci-Fi</button>
+      <button class="purple ui button" id="sport" onClick="filterButton(this.id)">Sport</button>
+      <button class="pink ui button" id="thriller" onClick="filterButton(this.id)">Thriller</button>
+      <button class="brown ui button" id="war" onClick="filterButton(this.id)">War</button>
+      <button class="red ui button" id="western" onClick="filterButton(this.id)">Western</button>      
+      
+      
+      
+    </div>
+    </div>
+  </div>
+  
+    <div class="actions">
+      <div class="ui black deny button">
+        Cancel
+      </div>
+      <div class="ui positive right labeled icon button">
+        Show Results
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+  
+<div class="ui standard modal transition hidden alphabetModal" style="display: block !important;">
+    
+    <div class="header">
+      Select By Alphabet
+    </div>
+    <div class="image content">
+ 
+    <div class="description">
+      <div class="spaced">
+      <button class="red ui button" id="A" onClick="alphabetButton(this.id)">A</button>
+      <button class="red ui button" id="B" onClick="alphabetButton(this.id)">B</button>
+      <button class="red ui button" id="C" onClick="alphabetButton(this.id)">C</button>
+      <button class="red ui button" id="D" onClick="alphabetButton(this.id)">D</button>
+      <button class="red ui button" id="E" onClick="alphabetButton(this.id)">E</button>
+      <button class="red ui button" id="F" onClick="alphabetButton(this.id)">F</button>
+      <button class="red ui button" id="G" onClick="alphabetButton(this.id)">G</button>
+      <button class="red ui button" id="H" onClick="alphabetButton(this.id)">H</button>
+      <button class="red ui button" id="I" onClick="alphabetButton(this.id)">I</button>
+      <button class="red ui button" id="J" onClick="alphabetButton(this.id)">J</button>
+      <button class="red ui button" id="K" onClick="alphabetButton(this.id)">K</button>
+      <button class="red ui button" id="L" onClick="alphabetButton(this.id)">L</button>
+      <button class="red ui button" id="M" onClick="alphabetButton(this.id)">M</button>
+      <p></p>
+      <button class="red ui button" id="N" onClick="alphabetButton(this.id)">N</button>
+      <button class="red ui button" id="O" onClick="alphabetButton(this.id)">O</button>
+      <button class="red ui button" id="P" onClick="alphabetButton(this.id)">P</button>
+      <button class="red ui button" id="Q" onClick="alphabetButton(this.id)">W</button>
+      <button class="red ui button" id="R" onClick="alphabetButton(this.id)">R</button>
+      <button class="red ui button" id="S" onClick="alphabetButton(this.id)">S</button>
+      <button class="red ui button" id="T" onClick="alphabetButton(this.id)">T</button>
+      <button class="red ui button" id="U" onClick="alphabetButton(this.id)">U</button>
+      <button class="red ui button" id="V" onClick="alphabetButton(this.id)">V</button>
+      <button class="red ui button" id="W" onClick="alphabetButton(this.id)">W</button>
+      <button class="red ui button" id="X" onClick="alphabetButton(this.id)">X</button>
+      <button class="red ui button" id="Y" onClick="alphabetButton(this.id)">Y</button>
+      <button class="red ui button" id="Z" onClick="alphabetButton(this.id)">Z</button>
+
+      
+      
+      
+    </div>
+    </div>
+  </div>
+  
+    <div class="actions">
+      <div class="ui black deny button">
+        Cancel
+      </div>
+      <div class="ui positive right labeled icon button">
+        Show Results
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>  
+  
+  
+	<div class="ui mini modal transition hidden">
+    <div class="header">
+      Order by...
+    </div>
+    <div class="content">
+    	<button class="red ui button" id="rating" onClick="orderButton(id)">Rating</button>
+    	<button class="blue ui button" id="title" onClick="orderButton(id)">Title</button>		
+    </div>
+    <div class="header">
+      Results per page...
+    </div>
+    <div class="content">
+    	<button class="red ui button" id="5" onClick="rpp=5">5</button>
+    	<button class="blue ui button" id="20" onClick="rpp=20">20</button>
+      	<button class="blue ui button" id="50" onClick="rpp=50">50</button>		
+  		
+    </div>
+   
+  </div>
+</div>
+
+<!-- Load jQuery and Bootstrap JS -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="./dist/components/transition.js"></script>
+
+
+<!-- Load our own JS file -->
+<!-- The path is relative to index.html, since these two files are in the same directory -->
+<!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
+  otherwise the url is relative to the root path-->
+  <script src="index.js"></script>
+</body>
+
+
+</html>

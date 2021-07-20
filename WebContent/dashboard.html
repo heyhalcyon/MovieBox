@@ -1,0 +1,184 @@
+	<!-- This example is following frontend and backend separation.
+
+    This .html performs two steps:
+    1. Create a html template skeleton, with all the elements defined (some left empty) and named with ids.
+    2. Load single-star.js to populate the data into empty elements.
+    -->
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+	<!--  semantic css -->
+  <link rel="stylesheet" type="text/css" href="./dist/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/transition.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./dist/components/reset.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/site.css">
+
+  <link rel="stylesheet" type="text/css" href="./dist/components/container.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/grid.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/header.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/image.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/menu.css">
+
+  <link rel="stylesheet" type="text/css" href="./dist/components/divider.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/segment.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/form.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/input.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/button.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/list.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/message.css">
+  <link rel="stylesheet" type="text/css" href="./dist/components/icon.css">
+	<link rel="stylesheet" href="/fabflix/single-movie.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <title>Single Movie</title>
+</head>
+<body>
+<h1>Dashboard</h1>
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="#" class="header item">
+        122B Project3
+      </a>
+      <a href="/fabflix/index.html" class="item">Movie Index</a>
+      <div class="ui simple dropdown item">
+        Dropdown <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item" href="#">Link Item</a>
+          <a class="item" href="#">Link Item</a>
+          <div class="divider"></div>
+          <div class="header">Header Item</div>
+          <div class="item">
+            <i class="dropdown icon"></i>
+            Sub Menu
+            <div class="menu">
+              <a class="item" href="#">Link Item</a>
+              <a class="item" href="#">Link Item</a>
+            </div>
+          </div>
+          <a class="item" href="#">Link Item</a>
+        </div>
+      </div>
+      <button class="ui primary button" id="advanceSearch" onclick='$(".advance.modal").modal("show")'>Add Movie</button>
+    <button class="ui primary button" id="sort" onclick='$(".mini.modal").modal("show")'>Add star</button> 
+    </div>
+  </div>
+
+<!-- H3 body is left empty here, will be populated with the data retrieved with single-star.js -->
+<!-- single-star.js will find this html element by it's id "star_info" -->
+  <div class="ui items" style="margin-top: 50px;width: 85%; margin-left:7%" >
+
+    <div class="ui internally celled grid">
+    <pre id="table-list">
+
+	</pre>
+    </div>
+
+  </div>
+  
+  
+  
+  <div class="ui dimmer modals page transition hidden">
+  
+  
+  	<div class="ui standard advance modal transition hidden" style="display: block !important;">
+    
+    <div class="header">
+      Add Movie
+    </div>
+    <div class="image content">
+ 
+    <div class="description">
+      <div class="spaced">
+      <div class="ui form" id="advanceSearchForm">
+  		<div class="field">
+		    <label>Movie Title</label>
+		    <input type="text" placeholder="Enter movie title" name="title">
+  		</div>
+  		<div class="field">
+		    <label>Movie Year</label>
+		    <input type="text" placeholder="Enter movie year" name="year">
+  		</div>
+  		<div class="field">
+		    <label>Movie Director</label>
+		    <input type="text" placeholder="Enter movie director" name="director">
+  		</div>
+  		<div class="field">
+		    <label>Genre</label>
+		    <input type="text" placeholder="Enter movie genre" name="genre">
+  		</div>
+  		<div class="field">
+		    <label>Star</label>
+		    <input type="text" placeholder="Enter movie star" name="star">
+  		</div>
+  		<div class="field">
+  			<label>Star Birth Year</label>
+		    <input type="text" placeholder="Enter movie star year" name="syear">
+  		</div>
+  		
+  </div>
+	  </div>
+     
+      
+      
+    </div>
+    </div>
+    <div class="ui positive right labeled icon button" id="addMovieSubmit">
+        Add movie
+        <i class="checkmark icon"></i>
+     </div> 
+  </div>
+
+	
+  </div>
+
+	<div class="ui mini modal transition hidden">
+    <div class="header">
+      Add Movie
+    </div>
+    <div class="content">
+    	<div class="ui form" id="addStarForm">
+  		<div class="field">
+		    <label>Star Name</label>
+		    <input type="text" placeholder="Enter star name" name="name">
+  		</div>
+  		<div class="field">
+		    <label>Birth Year</label>
+		    <input type="text" placeholder="Enter star birth year" name="year">
+  		</div>
+  		<div class="ui positive right labeled icon button" id="addStarSubmit">
+        Add movie
+        <i class="checkmark icon"></i>
+     </div> 
+  	
+  		
+  </div>		
+    </div>
+    
+   
+  </div>
+	</div>
+<!-- Load jQuery and Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="./dist/components/transition.js"></script>
+<!-- Load our own JS file -->
+<!-- The path is relative to single-star.html, since these two files are in the same directory -->
+<!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
+     otherwise the url is relative to the root path-->
+<script src="dashboard.js"></script>
+</body>
+
+
+</html>
